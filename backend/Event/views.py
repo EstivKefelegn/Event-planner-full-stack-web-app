@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.permissions import IsAuthenticated
 from .models import Event
 from .serializers import EventSerializer
 
@@ -14,6 +15,7 @@ from .serializers import EventSerializer
 #     return Response(serializer.data)
 
 class event_list(ListCreateAPIView):
+    permission_classes =[IsAuthenticated]
     serializer_class = EventSerializer
     
     def get_queryset(self):
@@ -26,6 +28,7 @@ class event_list(ListCreateAPIView):
         return {'request': self.request}
          
 class event_detail(RetrieveUpdateDestroyAPIView):
+    permission_classes =[IsAuthenticated]
     serializer_class = EventSerializer
     
     def get_queryset(self):
