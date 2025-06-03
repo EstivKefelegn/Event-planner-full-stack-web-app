@@ -9,9 +9,10 @@ const api = axios.create({
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const token = localStorage.getItem(ACCESS_TOKEN)
-
+    console.log("API base URL is:", import.meta.env.VITE_API_URL);
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`
+      config.headers.Authorization = `JWT ${token}`
+      
     }
 
     return config 

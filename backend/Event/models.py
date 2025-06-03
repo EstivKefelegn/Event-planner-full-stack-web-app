@@ -50,7 +50,7 @@ class Event(models.Model):
     
     repeat = models.CharField(max_length=10, choices=REPEAT_CHOICES, blank=True, null=True)
     repeat_interval = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1)])    
-    repeat_weekdays = models.JSONField(default=list, blank=True)
+    repeat_weekdays = models.JSONField(default=list, null=True, blank=True)
     repeat_month_week = models.IntegerField(choices=MONTH_WEEK_CHOICES, blank=True, null=True)
     repeat_month_weekday = models.IntegerField(choices=WEEKDAY_CHOICES, blank=True, null=True)
     repeat_end_date = models.DateTimeField(blank=True, null=True)

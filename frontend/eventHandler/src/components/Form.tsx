@@ -3,8 +3,8 @@ import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../tokens";
 import LoadingIndicator from "./LoadingIndicator";
+import "../styles/Form.css"; // 🔹 Import the stylesheet
 
-// Define the props type
 interface FormProps {
   route: string;
   method: "login" | "register";
@@ -12,7 +12,7 @@ interface FormProps {
 
 function Form({ route, method }: FormProps) {
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");   // Initialize as empty string
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -20,11 +20,10 @@ function Form({ route, method }: FormProps) {
   const name = method === "login" ? "Login" : "Register";
 
   const handleSubmit = async (e: React.FormEvent) => {
-    setLoading(true);
     e.preventDefault();
+    setLoading(true);
 
     try {
-      // Include email only if registering
       const payload =
         method === "register"
           ? { username, email, password }
@@ -35,17 +34,13 @@ function Form({ route, method }: FormProps) {
       if (method === "login") {
         localStorage.setItem(ACCESS_TOKEN, res.data.access);
         localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-        navigate("/");
+        navigate("/list");
       } else {
         navigate("/login");
       }
     } catch (error: any) {
-      if (error.response && error.response.data) {
-        console.error("API Error response:", error.response.data);
-        alert(
-          "Registration failed:\n" +
-            JSON.stringify(error.response.data, null, 2)
-        );
+      if (error.response?.data) {
+        alert("Error:\n" + JSON.stringify(error.response.data, null, 2));
       } else {
         alert(error.message || "An error occurred");
       }
@@ -55,38 +50,45 @@ function Form({ route, method }: FormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="form-container">
-      <h1>{name}</h1>
-      <input
-        className="form-input"
-        type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        placeholder="Username"
-      />
-      {/* Show email input only on Register */}
-      {method === "register" && (
+    <div className="form-page-container">
+      <form onSubmit={handleSubmit} className="form-card">
+        <h1 className="form-title">{name}</h1>
+
         <input
           className="form-input"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Username"
           required
         />
-      )}
-      <input
-        className="form-input"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-      />
-      {loading && <LoadingIndicator />}
-      <button className="form-button" type="submit">
-        {name}
-      </button>
-    </form>
+
+        {method === "register" && (
+          <input
+            className="form-input"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            required
+          />
+        )}
+
+        <input
+          className="form-input"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          required
+        />
+
+        {loading && <LoadingIndicator />}
+        <button className="form-button" type="submit">
+          {name}
+        </button>
+      </form>
+    </div>
   );
 }
 

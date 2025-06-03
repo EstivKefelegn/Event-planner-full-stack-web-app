@@ -1,0 +1,118 @@
+.container {
+    max-width: 768px;
+    margin: 2rem auto;
+    padding: 1rem;
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #222;
+  }
+  
+  .loading,
+  .no-events {
+    font-size: 1rem;
+    color: #666;
+    text-align: center;
+    margin: 2rem 0;
+  }
+  
+  ul.event-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .event-list li {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    background-color: #fafafa;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: box-shadow 0.3s ease;
+    cursor: default;
+  }
+  
+  .event-list li:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  
+  .event-list h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+    color: #1a4dab;
+  }
+  
+  .event-list time {
+    font-size: 0.875rem;
+    color: #666;
+  }
+  
+  .event-list p.description {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .event-list p.recurrence {
+    margin-top: 0.3rem;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: #2a7f2a;
+  }
+  
+  .create-event-link {
+    display: inline-block;
+    margin-top: 2rem;
+    margin-right: 2rem ;
+    background-color: #1a4dab;
+    color: white;
+    padding: 0.5rem 1.25rem;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .create-event-link:hover {
+    background-color: #154088;
+  }
+  
+  
+
+  .delete-button {
+    background-color: #e53935;
+    color: white;
+    padding: 6px 12px;
+    margin-left: 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .delete-button:hover {
+    background-color: #c62828;
+  }
+  
+
+  .update-button {
+    background-color: #1976d2;
+    color: white;
+    padding: 6px 12px;
+    margin-left: 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .update-button:hover {
+    background-color: #1565c0;
+  }
+  
