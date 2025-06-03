@@ -10,6 +10,7 @@ class EventSerializer(serializers.ModelSerializer):
         fields = '__all__' 
 
     def get_recurrence_description(self, obj):
+        
         return obj.get_recurrence_description()
 
     def validate(self, data):
