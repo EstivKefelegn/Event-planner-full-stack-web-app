@@ -22,7 +22,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+        <Route path="/" element={<Home />} />
         <Route path="/list" element={<ProtectedRoute><EventList /></ProtectedRoute>} />
         <Route path="/create" element={<ProtectedRoute><CreateEventForm /></ProtectedRoute>} />
         <Route path="/update/:eventId" element={<ProtectedRoute><UpdateEventForm /></ProtectedRoute>} />
