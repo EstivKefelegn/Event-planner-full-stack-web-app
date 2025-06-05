@@ -75,12 +75,25 @@ function CreateEventForm() {
         );
       }
 
+      // if (repeat === "MONTHLY") {
+      //   payload.repeat_month_week = parseInt(repeatMonthWeek, 10);
+      //   payload.repeat_month_weekday = [
+      //     "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN",
+      //   ].indexOf(repeatMonthWeekday);
+      // }
       if (repeat === "MONTHLY") {
-        payload.repeat_month_week = parseInt(repeatMonthWeek, 10);
-        payload.repeat_month_weekday = [
-          "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN",
-        ].indexOf(repeatMonthWeekday);
+        const monthWeekInt = parseInt(repeatMonthWeek, 10);
+        const weekdayIndex = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"].indexOf(repeatMonthWeekday);
+      
+        if (!isNaN(monthWeekInt)) {
+          payload.repeat_month_week = monthWeekInt;
+        }
+      
+        if (weekdayIndex !== -1) {
+          payload.repeat_month_weekday = weekdayIndex;
+        }
       }
+      
 
       if (endOption === "on") {
         payload.repeat_end_date = repeatEndDate;
@@ -204,7 +217,7 @@ function CreateEventForm() {
               </div>
             )}
 
-            {repeat === "MONTHLY" && (
+            {/* {repeat === "MONTHLY" && (
               <>
                 <label htmlFor="repeat-month-week">Week of Month</label>
                 <input
@@ -230,7 +243,50 @@ function CreateEventForm() {
                   <p className="error-text">{errors.repeatMonthWeekday}</p>
                 )}
               </>
+            )} */}
+
+            {repeat === "MONTHLY" && (
+              <>
+                <label htmlFor="repeat-month-week">Week of Month</label>
+                <select
+                  id="repeat-month-week"
+                  value={repeatMonthWeek}
+                  onChange={(e) => setRepeatMonthWeek(e.target.value)}
+                  className={errors.repeatMonthWeek ? "input-error" : ""}
+                >
+                  <option value="">-- Select Week of Month --</option>
+                  <option value="1">First</option>
+                  <option value="2">Second</option>
+                  <option value="3">Third</option>
+                  <option value="4">Fourth</option>
+                  <option value="-1">Last</option>
+                </select>
+                {errors.repeatMonthWeek && (
+                  <p className="error-text">{errors.repeatMonthWeek}</p>
+                )}
+
+                <label htmlFor="repeat-month-weekday">Weekday</label>
+                <select
+                  id="repeat-month-weekday"
+                  value={repeatMonthWeekday}
+                  onChange={(e) => setRepeatMonthWeekday(e.target.value)}
+                  className={errors.repeatMonthWeekday ? "input-error" : ""}
+                >
+                  <option value="">-- Select Weekday --</option>
+                  <option value="MON">Monday</option>
+                  <option value="TUE">Tuesday</option>
+                  <option value="WED">Wednesday</option>
+                  <option value="THU">Thursday</option>
+                  <option value="FRI">Friday</option>
+                  <option value="SAT">Saturday</option>
+                  <option value="SUN">Sunday</option>
+                </select>
+                {errors.repeatMonthWeekday && (
+                  <p className="error-text">{errors.repeatMonthWeekday}</p>
+                )}
+              </>
             )}
+
 
             <fieldset>
               <legend>End Repeat</legend>
