@@ -90,7 +90,7 @@ function CreateEventForm() {
     }
 
     try {
-      await api.post("/events/", payload);
+      await api.post("/", payload);
       navigate("/list");
     } catch (error: any) {
       console.error("Error creating event:", error.response?.data || error);
