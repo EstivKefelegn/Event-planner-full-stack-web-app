@@ -23,6 +23,9 @@ function UpdateEventForm() {
     const [repeatCount, setRepeatCount] = useState(1);
     const [loading, setLoading] = useState(false);
 
+    // New state for form errors
+    const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
+
     // Load event on mount
     useEffect(() => {
         const fetchEvent = async () => {
@@ -65,7 +68,7 @@ function UpdateEventForm() {
                 }
             } catch (error) {
                 console.error("Failed to load event", error);
-                alert("Failed to load event details");
+                // alert("Failed to load event details");
             } finally {
                 setLoading(false);
             }
@@ -74,8 +77,35 @@ function UpdateEventForm() {
         fetchEvent();
     }, [eventId]);
 
+    // Validation function
+    const validateForm = () => {
+        const errors: { [key: string]: string } = {};
+
+        if (!title.trim()) {
+            errors.title = "Title is required.";
+        }
+
+        if (!startTime) {
+            errors.startTime = "Start time is required.";
+        }
+
+        if (!endTime) {
+            errors.endTime = "End time is required.";
+        }
+
+        if (startTime && endTime && new Date(startTime) >= new Date(endTime)) {
+            errors.endTime = "End time must be after start time.";
+        }
+
+        setFormErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (!validateForm()) return;
+
         setLoading(true);
 
         const payload: any = {
@@ -130,13 +160,12 @@ function UpdateEventForm() {
     }
 
     return (
-
         <div className="update-event-container">
             <div className="logout-bar" style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1rem" }}>
                 <LogoutButton />
             </div>
 
-            <form onSubmit={handleSubmit} className="update-event-form">
+            <form onSubmit={handleSubmit} className="update-event-form" noValidate>
                 <h2 className="form-title">Update Event</h2>
 
                 <div className="form-group">
@@ -146,9 +175,9 @@ function UpdateEventForm() {
                         type="text"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        className="form-input"
-                        required
+                        className={`form-input ${formErrors.title ? "error" : ""}`}
                     />
+                    {formErrors.title && <span className="error-text">{formErrors.title}</span>}
                 </div>
 
                 <div className="form-group">
@@ -169,9 +198,9 @@ function UpdateEventForm() {
                             type="datetime-local"
                             value={startTime}
                             onChange={(e) => setStartTime(e.target.value)}
-                            className="form-input"
-                            required
+                            className={`form-input ${formErrors.startTime ? "error" : ""}`}
                         />
+                        {formErrors.startTime && <span className="error-text">{formErrors.startTime}</span>}
                     </div>
 
                     <div className="form-group">
@@ -181,9 +210,9 @@ function UpdateEventForm() {
                             type="datetime-local"
                             value={endTime}
                             onChange={(e) => setEndTime(e.target.value)}
-                            className="form-input"
-                            required
+                            className={`form-input ${formErrors.endTime ? "error" : ""}`}
                         />
+                        {formErrors.endTime && <span className="error-text">{formErrors.endTime}</span>}
                     </div>
                 </div>
 
@@ -356,8 +385,9 @@ function UpdateEventForm() {
                 </div>
             </form>
         </div>
-
     );
 }
 
 export default UpdateEventForm;
+
+
